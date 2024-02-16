@@ -9,12 +9,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const referringURL = ctx.req.headers?.referer || null;
 	const pathArr = ctx.query.postpath as Array<string>;
 	const path = pathArr.join('/');
-	console.log(path);
 	const fbclid = ctx.query.fbclid;
 
-	// redirect if facebook is the referer or request contains fbclid
-		if (referringURL?.includes('facebook.com') || fbclid) {
-
+	// redirect if Facebook or TikTok is the referer or request contains fbclid
+	if (
+		referringURL?.includes('facebook.com') ||
+		referringURL?.includes('tiktok.com') ||
+		fbclid
+	) {
 		return {
 			redirect: {
 				permanent: false,
@@ -23,7 +25,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				}`,
 			},
 		};
-		}
+	}
+
 	const query = gql`
 		{
 			post(id: "/${path}/", idType: URI) {
@@ -55,6 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			notFound: true,
 		};
 	}
+
 	return {
 		props: {
 			path,
@@ -73,7 +77,6 @@ interface PostProps {
 const Post: React.FC<PostProps> = (props) => {
 	const { post, host, path } = props;
 
-	// to remove tags from excerpt
 	const removeTags = (str: string) => {
 		if (str === null || str === '') return '';
 		else str = str.toString();
